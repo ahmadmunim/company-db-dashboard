@@ -1,0 +1,230 @@
+REM ******************************************************************
+REM  file: createSchema.tab
+REM  description: used for creating the tables in the company schema
+REM  
+REM ****************************************************************** 
+
+SPOOL createSchema.tab.log
+
+PROMPT Creating Table 'EMPLOYEE'
+CREATE TABLE EMPLOYEE 
+    (Ssn CHAR(9)
+    ,Fname VARCHAR2(15)
+    ,Lname VARCHAR2(15)
+    ,RNo INT
+    ,Bdate DATE
+    ,Sex CHAR
+)
+/
+COMMENT ON TABLE EMPLOYEE IS 'Information about employees.' 
+/
+COMMENT ON COLUMN EMPLOYEE.Ssn IS 'Social Security Number of each employee that is unique'
+/
+COMMENT ON COLUMN EMPLOYEE.Fname IS 'First name of the employee'
+/
+COMMENT ON COLUMN EMPLOYEE.Lname IS 'Last name of the employee'
+/
+COMMENT ON COLUMN EMPLOYEE.RNo IS 'Role number of the emplolyee'
+/
+COMMENT ON COLUMN EMPLOYEE.Bdate IS 'Birthday of each employee'
+/
+COMMENT ON COLUMN EMPLOYEE.Sex IS 'Gender of each employee' 
+/
+
+
+PROMPT Creating Table 'EMP_CONTACT'
+CREATE TABLE EMP_CONTACT 
+    (Essn CHAR(9),
+    Email VARCHAR2(30),
+    Phone VARCHAR2(12),
+    Address VARCHAR2(30)
+    )
+/
+COMMENT ON TABLE EMP_CONTACT IS 'Information about emplolyee contact'
+/
+COMMENT ON COLUMN EMP_CONTACT.Essn IS 'Employee social security number'
+/
+COMMENT ON COLUMN EMP_CONTACT.Email IS 'Employee email' 
+/
+COMMENT ON COLUMN EMP_CONTACT.Phone IS 'Employee phone number'
+/
+COMMENT ON COLUMN EMP_CONTACT.Address IS 'Employee address'
+/  
+
+PROMPT Creating Table 'DEPARTMENT'
+CREATE TABLE DEPARTMENT 
+    (Dnumber INT
+    ,Dname VARCHAR2(15)
+    ,Mgr_ssn CHAR(9)
+    ,Mgr_start_date DATE
+    )
+/
+COMMENT ON TABLE DEPARTMENT IS 'Information about department'
+/
+COMMENT ON COLUMN DEPARTMENT.Dnumber IS 'Department number'
+/
+COMMENT ON COLUMN DEPARTMENT.Dname IS 'Name of the department'
+/
+COMMENT ON COLUMN DEPARTMENT.Mgr_ssn IS 'Managers Social Security Number'
+/
+COMMENT ON COLUMN DEPARTMENT.Mgr_start_date IS 'Manager start date'
+/
+
+PROMPT Creating Table 'DEPT_LOCATIONS'
+CREATE TABLE DEPT_LOCATIONS 
+    (Dnumber INT
+    ,Dlocation VARCHAR2(15)
+    )
+/
+COMMENT ON TABLE DEPT_LOCATIONS IS 'Locations of each department'
+/
+COMMENT ON COLUMN DEPT_LOCATIONS.Dnumber IS 'Department number'
+/
+COMMENT ON COLUMN DEPT_LOCATIONS.Dlocation IS 'Locations of department'
+/
+
+PROMPT Creating Table 'PROJECT'
+CREATE TABLE PROJECT 
+    (Pnumber INT
+    ,Pname VARCHAR2(15)
+    ,Dnum INT
+    ,Pstart_date DATE
+    )
+/
+COMMENT ON TABLE PROJECT IS 'Information about projects'
+/
+COMMENT ON COLUMN PROJECT.Pnumber IS 'Project number'
+/
+COMMENT ON COLUMN PROJECT.Pname IS 'Project Name'
+/
+COMMENT ON COLUMN PROJECT.Dnum IS 'Department number associated with the project'
+/
+COMMENT ON COLUMN PROJECT.Pstart_date IS 'Project start date'
+/
+
+PROMPT Creating Table 'WORKS_ON'
+CREATE TABLE WORKS_ON 
+    (Essn CHAR(9)
+    ,Pno INT
+    ,HOURS DECIMAL(3,1)
+    )
+/
+COMMENT ON TABLE WORKS_ON IS 'Information about what employee works on what projects'
+/
+COMMENT ON COLUMN WORKS_ON.Essn IS 'Employee ssn'
+/
+COMMENT ON COLUMN WORKS_ON.Pno IS 'Project number'
+/
+COMMENT ON COLUMN WORKS_ON.Hours IS 'Number of hours worked on the project'
+/
+
+PROMPT Creating Table 'DEPENDENT'
+CREATE TABLE DEPENDENT 
+    (Essn CHAR(9)
+    ,Dependent_name VARCHAR2(15)  
+    ,Sex CHAR
+    ,Bdate DATE
+    ,Relationship VARCHAR2(8)
+)
+/
+COMMENT ON TABLE DEPENDENT IS 'Information about employee dependents'
+/
+COMMENT ON COLUMN DEPENDENT.Essn IS 'Employee Social Security Number'
+/
+COMMENT ON COLUMN DEPENDENT.Dependent_name IS 'Employee dependents name'
+/
+COMMENT ON COLUMN DEPENDENT.Sex IS 'Dependents gender'
+/
+COMMENT ON COLUMN DEPENDENT.Bdate IS 'Dependents Birthday'
+/
+COMMENT ON COLUMN DEPENDENT.Relationship IS 'The relationship of the dependent with the employee'
+/
+PROMPT Creating Table 'CLIENT'
+CREATE TABLE CLIENT
+    (Cid INT
+    ,Fname VARCHAR(15)
+    ,Lname VARCHAR(15)
+    ,Works_for VARCHAR(15)
+    ,Email VARCHAR(30)
+    ,Phone VARCHAR(12)
+    )
+/
+
+COMMENT ON TABLE CLIENT IS 'Information for the clients of the company.'
+/
+COMMENT ON COLUMN CLIENT.Cid IS 'The ID of the client'
+/
+COMMENT ON COLUMN CLIENT.Fname IS 'The first name of the client'
+/
+COMMENT ON COLUMN CLIENT.Lname IS 'The last name of the client.'
+/
+COMMENT ON COLUMN CLIENT.Email IS 'The email of the client.'
+/
+COMMENT ON COLUMN CLIENT.Phone IS 'The client''s phone number.'
+/
+
+PROMPT Creating Table 'CLIENT_PROJECT'
+CREATE TABLE CLIENT_PROJECT
+    (Cid INT
+    ,Gave_project INT
+    )
+/
+
+COMMENT ON TABLE CLIENT_PROJECT IS 'The projects the client has given the company.'
+/
+COMMENT ON COLUMN CLIENT_PROJECT.Cid IS 'The ID of the client'
+/
+COMMENT ON COLUMN CLIENT_PROJECT.Gave_project IS 'The client''s project.'
+/
+
+PROMPT Creating Table 'ROLES'
+CREATE TABLE ROLES
+    (Rno INT
+    ,Rname VARCHAR(15)
+    )
+/
+
+COMMENT ON TABLE ROLES IS 'A lookup table for the roles in the company.'
+/
+
+COMMENT ON COLUMN ROLES.Rno IS 'The ID of the role.'
+/
+
+COMMENT ON COLUMN ROLES.Rname IS 'The name of the role.'
+/
+
+PROMPT Creating Table 'PAYSTUB'
+CREATE TABLE PAYSTUB 
+    (recordID INT
+    ,Paystub_id INT
+    ,Essn CHAR(9)
+    ,Start_date DATE
+    ,End_date DATE
+    ,Gross_pay DECIMAL (10,2)
+    ,Deductions DECIMAL (10,2)
+    ,Net_pay DECIMAL (10,2)
+    )
+/
+COMMENT ON TABLE PAYSTUB IS 'Information about employee paystub'
+/
+COMMENT ON COLUMN PAYSTUB.Paystub_id IS 'Paystub id '
+/
+COMMENT ON COLUMN PAYSTUB.Essn IS 'Employee social security number'
+/
+COMMENT ON COLUMN PAYSTUB.Start_date IS 'Paystub start date period'
+/
+COMMENT ON COLUMN PAYSTUB.End_date IS 'Paystub end date period'
+/
+COMMENT ON COLUMN PAYSTUB.Gross_pay IS 'Employee gross pay'
+/
+COMMENT ON COLUMN PAYSTUB.Deductions IS 'Deductions from their gross pay'
+/
+COMMENT ON COLUMN PAYSTUB.Net_pay IS 'Net pay'
+/
+
+
+
+
+COMMIT;
+
+SPOOL OFF
