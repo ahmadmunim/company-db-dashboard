@@ -1,17 +1,14 @@
 REM ******************************************************************
-REM   file: createCompany.sql
+REM   file: createTest.sql
 REM  description: used for creating the objects and loading data
 REM                 into the company schema
-REM  
+REM  created September 28 2024
 REM ******************************************************************
 
 SET ECHO OFF
 
-@@createSchema.tab
+@@company.tab
 @@company.ind
-@@company.con
 @@insertData.sql
+@@company.con
 SET ECHO OFF
-CLEAR SCREEN
-
-

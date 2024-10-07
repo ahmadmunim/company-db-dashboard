@@ -1,31 +1,21 @@
 REM ******************************************************************
 REM   file: company.ind
 REM  description: used for creating indexes in the company schema
-REM  
+REM  created October 3, 2024
 REM ******************************************************************
   
-SPOOL company.ind.log
+SPOOL test/test.ind.log
 
-
-PROMPT Creating Index 'Employee_WorksOn_FK_I'
-CREATE INDEX Employee_WorksOn_FK_I ON WORKS_ON
- (Essn)
+PROMPT Creating Index 'EMP_FNAME_LNAME_FK_I'
+CREATE INDEX EMP_FNAME_LNAME_FK_I ON EMPLOYEE
+ (Fname
+  ,Lname)
 /
 
-PROMPT Creating Index 'WorksOn_Pno_FK_I'
-CREATE INDEX WorksOn_Pno_FK_I ON WORKS_ON
- (Pno)
+PROMPT Creating Index 'CLIENT_FNAME_LNAME_FK_I'
+CREATE INDEX CLIENT_FNAME_LNAME_FK_I ON CLIENT
+ (Fname
+  ,Lname)
 /
-
-PROMPT Creating Index 'DeptLocation_FK_I'
-CREATE INDEX DeptLocation_FK_I ON DEPT_LOCATIONS
- (Dnumber)
-/
-
-PROMPT Creating Index 'Dependent_FK_I'
-CREATE INDEX Dependent_FK_I ON DEPENDENT
- (Essn)
-/
-COMMIT;
 
 SPOOL OFF

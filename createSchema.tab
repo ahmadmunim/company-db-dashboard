@@ -4,7 +4,7 @@ REM  description: used for creating the tables in the company schema
 REM  
 REM ****************************************************************** 
 
-SPOOL createSchema.tab.log
+SPOOL test.tab.log
 
 PROMPT Creating Table 'EMPLOYEE'
 CREATE TABLE EMPLOYEE 
@@ -14,6 +14,7 @@ CREATE TABLE EMPLOYEE
     ,RNo INT
     ,Bdate DATE
     ,Sex CHAR
+    ,Dno INT
 )
 /
 COMMENT ON TABLE EMPLOYEE IS 'Information about employees.' 
@@ -29,6 +30,8 @@ COMMENT ON COLUMN EMPLOYEE.RNo IS 'Role number of the emplolyee'
 COMMENT ON COLUMN EMPLOYEE.Bdate IS 'Birthday of each employee'
 /
 COMMENT ON COLUMN EMPLOYEE.Sex IS 'Gender of each employee' 
+/
+COMMENT ON COLUMN EMPLOYEE.Dno IS 'Department number of the employee' 
 /
 
 
@@ -195,8 +198,7 @@ COMMENT ON COLUMN ROLES.Rname IS 'The name of the role.'
 
 PROMPT Creating Table 'PAYSTUB'
 CREATE TABLE PAYSTUB 
-    (recordID INT
-    ,Paystub_id INT
+    (Paystub_id INT
     ,Essn CHAR(9)
     ,Start_date DATE
     ,End_date DATE
