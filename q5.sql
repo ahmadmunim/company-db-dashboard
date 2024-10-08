@@ -9,7 +9,7 @@ SET ECHO OFF
 
 --1. Gets projects that started after 2024-10-03
 PROMPT 1. Gets projects that started after 2024-10-03
-SELECT * FROM PROJECT WHERE Pstart_date > '2024-10-03';
+SELECT * FROM PROJECT WHERE Pstart_date > TO_DATE('2024-10-03' , 'YYYY-MM-DD');
 
 
 --2. Gets the employees and what project they're working on
