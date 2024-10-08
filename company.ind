@@ -4,7 +4,7 @@ REM  description: used for creating indexes in the company schema
 REM  created October 3, 2024
 REM ******************************************************************
   
-SPOOL test/test.ind.log
+SPOOL company.ind.log
 
 PROMPT Creating Index 'EMP_FNAME_LNAME_FK_I'
 CREATE INDEX EMP_FNAME_LNAME_FK_I ON EMPLOYEE

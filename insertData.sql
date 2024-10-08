@@ -1,11 +1,11 @@
 REM ******************************************************************
 REM  file: insertCompany.sql
 REM  description: used for loading company data
-REM  created September.29.2024
+REM  created October 3, 2024
 REM ******************************************************************
 
 SET DEFINE OFF
-SPOOL test/insertTest.log
+SPOOL insertData.log
 
 --Employee (Ssn, Fname, Lname,Rno, Bdate, Sex,Dno )
 INSERT INTO EMPLOYEE VALUES (123456789,'John','Smith',1,TO_DATE('1965-01-09','YYYY-MM-DD'),'M',5);

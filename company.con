@@ -2,9 +2,10 @@ REM ******************************************************************
 REM   file: company.con
 REM  description: used for creating constraints in the student schema
 REM                 tables
+REM  created October 3, 2024
 REM ******************************************************************
 
-SPOOL test.con.log  
+SPOOL company.con.log  
  
 PROMPT Creating Check Constraints on 'EMPLOYEE'
 ALTER TABLE EMPLOYEE

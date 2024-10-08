@@ -1,10 +1,10 @@
 REM ******************************************************************
 REM  file: createSchema.tab
 REM  description: used for creating the tables in the company schema
-REM  
+REM  created October 3, 2024
 REM ****************************************************************** 
 
-SPOOL test.tab.log
+SPOOL company.tab.log
 
 PROMPT Creating Table 'EMPLOYEE'
 CREATE TABLE EMPLOYEE 

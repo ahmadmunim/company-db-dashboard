@@ -4,7 +4,7 @@ REM  description: used for droping company schema objects. Note that
 REM                 this script only drops the objects created for
 REM                 the SQL book and for the beginning of the
 REM                 PL/SQL book.
-REM  created September 28 2024
+REM  created October 3, 2024
 REM ******************************************************************
 
 PROMPT ** ******************************************************** **
