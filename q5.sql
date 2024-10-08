@@ -73,12 +73,13 @@ SELECT AVG(Net_pay) AS Average_Salary FROM PAYSTUB ;
 
 --9. Gets the max, min and avg salaries of each department
 PROMPT 9. Gets the max, min and avg salaries of each department
-SELECT Dno, 
-       MAX(Salary) AS Max_Salary, 
-       MIN(Salary) AS Min_Salary, 
-       AVG(Salary) AS Avg_Salary
-FROM EMPLOYEE
-GROUP BY Dno;
+SELECT e.Dno,
+    MAX(p.Net_pay) AS Max_Salary,
+    MIN(p.Net_pay) AS Min_Salary,
+    AVG(p.Net_pay) AS Avg_Salary
+FROM EMPLOYEE e
+JOIN PAYSTUB p ON e.Ssn = p.Essn
+GROUP BY e.Dno;
 
 -- 10. Gets the number of employees in each role
 PROMPT 10. List the department managers of each department
@@ -90,7 +91,7 @@ GROUP BY R.Rname;
 --11. Display the name of each department manager
 PROMPT 11. List the department managers of each department
 SELECT CONCAT(CONCAT(fname, ' '),
-CONCAT( CONCAT (lname, ' is the department manager of '),d.Dname)) AS Dept_Manager_Info FROM employee e
+    CONCAT( CONCAT (lname, ' is the department manager of '),d.Dname)) AS Dept_Manager_Info FROM employee e
 JOIN DEPARTMENT d ON e.Ssn = d.Mgr_ssn;
 
 --12. Display the formatted total net pay
