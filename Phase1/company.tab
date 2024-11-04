@@ -226,7 +226,6 @@ COMMENT ON COLUMN PAYSTUB.Net_pay IS 'Net pay'
 
 
 
-
 COMMIT;
 
 SPOOL OFF
