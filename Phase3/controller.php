@@ -18,7 +18,10 @@ if (isset($_POST['login-manager'])) {
     
     if($result) {
         if ($result[0]['Email'] == $email) {
+            session_start();
+            $_SESSION["user"] = $id;
             header("Location: app/manager/main.php");
+            die();
         }
         else {
             header("Location: login.php");     
@@ -45,7 +48,10 @@ if (isset($_POST['login-employee'])) {
     
     if($result) {
         if ($result[0]['Email'] == $email) {
+            session_start();
+            $_SESSION["user"] = $id;        
             header("Location: app/employee/main.php");
+            die();
         }
         else {
             $error_msg = "Invalid credentials";
@@ -74,7 +80,10 @@ if (isset($_POST['login-client'])) {
     
     if($result) {
         if ($result[0]['Email'] == $email) {
+            session_start();
+            $_SESSION["user"] = $id;            
             header("Location: app/client/main.php");
+            die();
         }
         else {
             header("Location: login.php");     
