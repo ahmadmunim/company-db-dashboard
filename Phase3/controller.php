@@ -392,6 +392,82 @@ if (isset($_POST['submit-emp'])) { // Check if post action
 
     // Return calls
     $data['message'] = $message;
+
+//Project Button Selected from Client folder --> Main.php
+}elseif(isset($_POST['projectBtn'])) {
+    //view projects
+    $projectData = $db ->query("SELECT Pname,Pstart_date,d.Dname AS Dept_Name FROM project JOIN department d ON d.Dnumber = Dnum;");
+    session_start();
+    $_SESSION['projectData'] = $projectData;
+    //Redirect from the main client page to projects.php
+    header("Location:http://localhost/xampp/company-db-dashboard/Phase3/app/client/projects.php");
+    exit;
+
+//Exit button selected from projects.php
+}elseif(isset($_POST['exitBtn'])){
+    //redirects from projects.php to main.php
+    header("Location:http://localhost/xampp/company-db-dashboard/Phase3/app/client/main.php");
+    exit;
+
+//Edit button selected from projects.php
+}elseif(isset($_POST['editBtn'])){
+    //redirects from projects.php to editProjects.php
+    header("Location:http://localhost/xampp/company-db-dashboard/Phase3/app/client/editProjects.php");
+    exit;
+
+
+//Save button selected from editProjects.php
+}elseif(isset($_POST['saveBtn'])){
+    //Get old project name from client
+    $oldProject = $_POST['oldProjectName'];
+
+    //Get the new project name from client
+    $newProject = $_POST['newProjectName'];
+    //Update the name of the project from Project table
+    $updateProjName = $db -> query("UPDATE project SET Pname = '$newProject' WHERE Pname = '$oldProject'");
+
+    //get updated table:
+    $projectData = $db ->query("SELECT Pname,Pstart_date,d.Dname AS Dept_Name FROM project JOIN department d ON d.Dnumber = Dnum;");
+    session_start();
+    $_SESSION['projectData'] = $projectData;
+
+    header("Location:http://localhost/xampp/company-db-dashboard/Phase3/app/client/projects.php");
+    exit;
+}
+//view emplpoyee information button selected from projects.php
+elseif(isset($_POST['viewEmpBtn'])){
+    //get employee contact information
+    $viewEmp = $db -> query(
+        "  SELECT p.Pname, e.Ssn, ec.Email, ec.Address, ec.Phone 
+                FROM project p 
+                JOIN employee e ON p.Dnum = e.Dno 
+                JOIN emp_contact ec ON e.Ssn = ec.Essn");
+    //create a session 
+    session_start();
+    $_SESSION['viewEmp']= $viewEmp;
+
+    //redirect to view employee information page
+    header("Location:http://localhost/xampp/company-db-dashboard/Phase3/app/client/viewEmp.php");
+    exit();
+}
+//view manager information button selected from projects.php
+elseif(isset($_POST['viewManagerBtn'])){
+    //get manager info 
+    $viewManager = $db ->query(
+        "  SELECT d.Mgr_ssn, p.Pname, ec.Email, ec.Phone, ec.Address
+                FROM works_on wo
+                JOIN department d ON d.Mgr_ssn = wo.Essn
+                JOIN project p ON wo.Pno = p.Pnumber
+                JOIN emp_contact ec ON d.Mgr_ssn = ec.Essn;"
+    );
+
+    //create a session
+    session_start();
+    $_SESSION['viewManager'] = $viewManager;
+
+    //redirect to view manager info page:
+    header("Location:http://localhost/xampp/company-db-dashboard/Phase3/app/client/viewManager.php");
+    exit();
 }
 
 
