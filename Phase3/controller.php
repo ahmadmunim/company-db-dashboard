@@ -4,13 +4,105 @@ require "model.php";
 $data = [];
 $db = new SimpleDB();
 
+if (isset($_POST['login-manager'])) {
+
+    $id = $_POST['id'];
+    $email = $_POST['email'];
+    
+    $conditions = [];
+
+    $sql = "SELECT ec.Essn, ec.Email FROM emp_contact ec, employee e WHERE Essn = '$id' AND ec.Essn = e.Ssn AND e.Rno = 1";
+
+    $result = $db->query($sql, $conditions);
+    print_r($result);
+    
+    if($result) {
+        if ($result[0]['Email'] == $email) {
+            session_start();
+            $_SESSION["user"] = $id;
+            header("Location: app/manager/main.php");
+            die();
+        }
+        else {
+            header("Location: login.php");     
+            echo "wrong credentials";       
+        }
+    } else {
+        header("Location: login.php");
+        echo "wrong credentials";
+    }
+
+}
+
+if (isset($_POST['login-employee'])) {
+
+    $id = $_POST['id'];
+    $email = $_POST['email'];
+    
+    $conditions = [];
+
+    $sql = "SELECT ec.Essn, ec.Email FROM emp_contact ec, employee e WHERE Essn = '$id' AND ec.Essn = e.Ssn AND e.Rno != 1";
+
+    $result = $db->query($sql, $conditions);
+    print_r($result[0]);
+    
+    if($result) {
+        if ($result[0]['Email'] == $email) {
+            session_start();
+            $_SESSION["user"] = $id;        
+            header("Location: app/employee/main.php");
+            die();
+        }
+        else {
+            $error_msg = "Invalid credentials";
+            include 'login.php';
+            header("Location: login.php");         
+        }
+    } else {
+        $error_msg = "Invalid credentials";
+        include 'login.php';
+        header("Location: login.php");
+    }
+
+}
+
+if (isset($_POST['login-client'])) {
+
+    $id = $_POST['id'];
+    $email = $_POST['email'];
+    
+    $conditions = [];
+
+    $sql = "SELECT c.Cid, c.Email FROM client c WHERE Cid = '$id'";
+
+    $result = $db->query($sql, $conditions);
+    print_r($result);
+    
+    if($result) {
+        if ($result[0]['Email'] == $email) {
+            session_start();
+            $_SESSION["user"] = $id;            
+            header("Location: app/client/main.php");
+            die();
+        }
+        else {
+            header("Location: login.php");     
+            echo "wrong credentials";       
+        }
+    } else {
+        header("Location: login.php");
+        echo "wrong credentials";
+    }
+
+}
+
 if (isset($_POST['submit-emp'])) { // Check if post action
     $conditions = [
         ":Bdate" => date("Y-m-d")
     ];
     $message = "Success";
     $errors = [];
-    $attributes = [
+    $attributes = [ // array of name fields in the create employee form
         "Ssn",
         "Fname",
         "Lname",
@@ -24,9 +116,9 @@ if (isset($_POST['submit-emp'])) { // Check if post action
 
     // Create conditions for query and where statement
     foreach ($attributes as $attribute) {
-        $value = $_POST[$attribute];
+        $value = $_POST[$attribute]; // gets inputted value in each form entry and assigns it
         if ($value) {
-            $conditions[":$attribute"] = $value;
+            $conditions[":$attribute"] = $value; // adds inputted value in conditions array
         } else {
             $errors[] = $attribute;
         }
@@ -38,7 +130,7 @@ if (isset($_POST['submit-emp'])) { // Check if post action
         // Insert Sql statment with interpolated variables `:variable`
         $sql = "INSERT INTO employee (Ssn, Fname, Lname, Rno, Bdate, Sex, Dno) VALUES (:Ssn, :Fname, :Lname, :Rno, :Bdate, :Sex, :Dno)";
         // Insert data from post action
-        $result = $db->insert_employee($sql, $conditions);
+        $result = $db->insert_employee($sql, $conditions); // goes to insert_employee function in model.php
 
         if (is_string($result)) {
             $message = "Could not add employee - " . $result;
