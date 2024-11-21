@@ -3,7 +3,6 @@ session_start();
 //fetch projects data
 if (isset($_SESSION['projectData'])) {
     $projectData = $_SESSION['projectData'];
-    unset($_SESSION['projectData']);
 } else {
     $projectData = [];
 }

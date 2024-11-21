@@ -3,7 +3,6 @@ session_start();
 //fetch projects data
 if (isset($_SESSION['viewManager'])) {
     $viewManager = $_SESSION['viewManager'];
-    unset($_SESSION['viewManager']);
 } else {
     $viewManager = [];
 }
@@ -21,7 +20,8 @@ if (isset($_SESSION['viewManager'])) {
             <table id="table">
                 <thead>
                     <tr>
-                        <th>Mgr_ssn</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
                         <th>Project Name</th>
                         <th>Email</th>
                         <th>Phone</th>
@@ -31,8 +31,9 @@ if (isset($_SESSION['viewManager'])) {
                 <tbody>
                     <?php foreach ($viewManager as $row): ?>
                         <tr>
-                            <td data-title="Mgr_ssn"><?php echo ($row["Mgr_ssn"]); ?></td>
-                            <td data-title="Pname"><?php echo ($row["Pname"]); ?></td>
+                            <td data-title="First Name"><?php echo ($row["Fname"]); ?></td>
+                            <td data-title="Last Name"><?php echo ($row["Lname"]); ?></td>
+                            <td data-title="Project Name"><?php echo ($row["Pname"]); ?></td>
                             <td data-title="Email"><?php echo ($row["Email"]); ?></td>
                             <td data-title="Phone"><?php echo ($row["Phone"]); ?></td>
                             <td data-title="Address"><?php echo ($row["Address"]); ?></td>

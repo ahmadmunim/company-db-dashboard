@@ -3,7 +3,6 @@ session_start();
 //fetch projects data
 if (isset($_SESSION['viewEmp'])) {
     $viewEmp = $_SESSION['viewEmp'];
-    unset($_SESSION['viewEmp']);
 } else {
     $viewEmp = [];
 }
@@ -22,7 +21,8 @@ if (isset($_SESSION['viewEmp'])) {
                 <thead>
                     <tr>
                         <th>Project Name</th>
-                        <th>SSN</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
                         <th>Email</th>
                         <th>Address</th>
                         <th>Phone</th>
@@ -32,7 +32,8 @@ if (isset($_SESSION['viewEmp'])) {
                     <?php foreach ($viewEmp as $row): ?>
                         <tr>
                             <td data-title="Project Name"><?php echo ($row["Pname"]); ?></td>
-                            <td data-title="SSN"><?php echo ($row["Ssn"]); ?></td>
+                            <td data-title="First Name"><?php echo ($row["Fname"]); ?></td>
+                            <td data-title="Last Name"><?php echo ($row["Lname"]); ?></td>
                             <td data-title="Email"><?php echo ($row["Email"]); ?></td>
                             <td data-title="Address"><?php echo ($row["Address"]); ?></td>
                             <td data-title="Phone"><?php echo ($row["Phone"]); ?></td>

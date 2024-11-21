@@ -396,11 +396,21 @@ if (isset($_POST['submit-emp'])) { // Check if post action
 //Project Button Selected from Client folder --> Main.php
 }elseif(isset($_POST['projectBtn'])) {
     //view projects
-    $projectData = $db ->query("SELECT Pname,Pstart_date,d.Dname AS Dept_Name FROM project JOIN department d ON d.Dnumber = Dnum;");
     session_start();
+    $clientId = $_SESSION['user'];
+
+    $projectData = $db ->query("SELECT Pname,Pstart_date,d.Dname AS Dept_Name FROM project JOIN department d ON d.Dnumber = Dnum;");
+
+    $projectData = $db->query("SELECT p.Pname, p.Pstart_date, d.Dname AS Dept_Name 
+                               FROM project p
+                               JOIN client_project cp ON cp.Gave_project = p.Pnumber
+                               JOIN department d ON d.Dnumber = p.Dnum
+                               WHERE cp.Cid = ?", [$clientId]); 
+    // Use the logged-in client's ID to filter projects
+
     $_SESSION['projectData'] = $projectData;
     //Redirect from the main client page to projects.php
-    header("Location:http://localhost/xampp/company-db-dashboard/Phase3/app/client/projects.php");
+    header("Location:http://localhost/company-db-dashboard/Phase3/app/client/projects.php");
     exit;
 
 //Exit button selected from projects.php
@@ -436,14 +446,19 @@ if (isset($_POST['submit-emp'])) { // Check if post action
 }
 //view emplpoyee information button selected from projects.php
 elseif(isset($_POST['viewEmpBtn'])){
-    //get employee contact information
-    $viewEmp = $db -> query(
-        "  SELECT p.Pname, e.Ssn, ec.Email, ec.Address, ec.Phone 
-                FROM project p 
-                JOIN employee e ON p.Dnum = e.Dno 
-                JOIN emp_contact ec ON e.Ssn = ec.Essn");
-    //create a session 
+
     session_start();
+    $clientId = $_SESSION['user'];
+
+    $viewEmp =  $db->query("SELECT p.Pname, e.Fname, e.Lname, ec.Email, ec.Address, ec.Phone
+                            FROM client_project cp
+                            JOIN project p ON cp.Gave_project = p.Pnumber
+                            JOIN works_on wo ON wo.Pno = p.Pnumber
+                            JOIN employee e ON e.Ssn = wo.Essn
+                            JOIN emp_contact ec ON ec.Essn = e.Ssn
+                            WHERE cp.Cid = ?", [$clientId]);
+    
+    //create a session 
     $_SESSION['viewEmp']= $viewEmp;
 
     //redirect to view employee information page
@@ -452,17 +467,14 @@ elseif(isset($_POST['viewEmpBtn'])){
 }
 //view manager information button selected from projects.php
 elseif(isset($_POST['viewManagerBtn'])){
-    //get manager info 
-    $viewManager = $db ->query(
-        "  SELECT d.Mgr_ssn, p.Pname, ec.Email, ec.Phone, ec.Address
-                FROM works_on wo
-                JOIN department d ON d.Mgr_ssn = wo.Essn
-                JOIN project p ON wo.Pno = p.Pnumber
-                JOIN emp_contact ec ON d.Mgr_ssn = ec.Essn;"
-    );
-
-    //create a session
+    
     session_start();
+    $clientId = $_SESSION['user'];
+    
+    //get manager info 
+    $viewManager = $db->query("SELECT e.Fname, e.Lname, ec.Email, ec.Phone, ec.Address, p.Pname FROM client_project cp JOIN project p ON cp.Gave_project = p.Pnumber JOIN works_on wo ON wo.Pno = p.Pnumber JOIN employee e ON e.Ssn = wo.Essn JOIN emp_contact ec ON ec.Essn = e.Ssn JOIN roles r ON r.Rno = e.Rno WHERE cp.Cid = ? AND r.Rno = 1;", [$clientId]);
+    
+    //create a session
     $_SESSION['viewManager'] = $viewManager;
 
     //redirect to view manager info page:
