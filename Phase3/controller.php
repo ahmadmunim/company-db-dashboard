@@ -393,6 +393,7 @@ if (isset($_POST['submit-emp'])) { // Check if post action
     // Return calls
     $data['message'] = $message;
 
+/*Client Buttons */
 //Project Button Selected from Client folder --> Main.php
 }elseif(isset($_POST['projectBtn'])) {
     //view projects
@@ -410,21 +411,20 @@ if (isset($_POST['submit-emp'])) { // Check if post action
 
     $_SESSION['projectData'] = $projectData;
     //Redirect from the main client page to projects.php
-    header("Location:http://localhost/company-db-dashboard/Phase3/app/client/projects.php");
+    header("Location: app/client/projects.php");
     exit;
 
 //Exit button selected from projects.php
 }elseif(isset($_POST['exitBtn'])){
     //redirects from projects.php to main.php
-    header("Location:http://localhost/xampp/company-db-dashboard/Phase3/app/client/main.php");
+    header("Location:app/client/main.php");
     exit;
 
-//Edit button selected from projects.php
+//Edit button for Client
 }elseif(isset($_POST['editBtn'])){
     //redirects from projects.php to editProjects.php
-    header("Location:http://localhost/xampp/company-db-dashboard/Phase3/app/client/editProjects.php");
+    header("Location:app/client/editProjects.php");
     exit;
-
 
 //Save button selected from editProjects.php
 }elseif(isset($_POST['saveBtn'])){
@@ -441,7 +441,7 @@ if (isset($_POST['submit-emp'])) { // Check if post action
     session_start();
     $_SESSION['projectData'] = $projectData;
 
-    header("Location:http://localhost/xampp/company-db-dashboard/Phase3/app/client/projects.php");
+    header("Location:app/client/projects.php");
     exit;
 }
 //view emplpoyee information button selected from projects.php
@@ -462,7 +462,7 @@ elseif(isset($_POST['viewEmpBtn'])){
     $_SESSION['viewEmp']= $viewEmp;
 
     //redirect to view employee information page
-    header("Location:http://localhost/xampp/company-db-dashboard/Phase3/app/client/viewEmp.php");
+    header("Location:app/client/viewEmp.php");
     exit();
 }
 //view manager information button selected from projects.php
@@ -478,7 +478,7 @@ elseif(isset($_POST['viewManagerBtn'])){
     $_SESSION['viewManager'] = $viewManager;
 
     //redirect to view manager info page:
-    header("Location:http://localhost/xampp/company-db-dashboard/Phase3/app/client/viewManager.php");
+    header("Location:app/client/viewManager.php");
     exit();
 }
 
@@ -634,5 +634,258 @@ elseif(isset($_POST['viewEmpInDeptBtn'])) {
     $_SESSION['viewEmpInDept'] = $viewEmpInDept;
     header("Location: app/employee/viewEmpInSameDept.php");
 }
+
+/* Manager Buttons:*/
+//view paystub button selected from main.php
+elseif(isset($_POST['paystubBtn'])){
+    //get paystub 
+    /*
+        select e.Ssn, p.Start_date, p.End_date, p.Gross_pay, p.Deductions, p.Net_pay
+        from employee  e
+        join department d on e.Dno = d.Dnumber
+        join paystub p on p.Essn = e.Ssn
+        Where d.Mgr_ssn = 333445555 AND e.Ssn != 333445555 
+        use $id instead of 333445555
+     */ 
+    $viewPaystub = $db -> query("  SELECT p.Paystub_id,e.Ssn, p.Start_date, p.End_date, p.Gross_pay, p.Deductions, p.Net_pay
+                                        FROM employee  e
+                                        JOIN department d ON e.Dno = d.Dnumber
+                                        JOIN paystub p ON p.Essn = e.Ssn
+                                        WHERE d.Mgr_ssn = 333445555 AND e.Ssn != 333445555 ");
+    //create a session
+    session_start();
+    $_SESSION['viewPaystub'] = $viewPaystub;
+
+    //redirect to employee paystub 
+    header("Location:app/manager/managePaystub.php");
+}
+
+//Exit button for Manager
+elseif(isset($_POST['exitPayBtn'])){
+    //redirects from managePaystub.php to main.php
+    header("Location:app/manager/main.php");
+    exit;
+}
+
+//ToCreate button for Manager
+//Direct manager to the create paystub page
+elseif(isset($_POST['createBtn'])){
+    header("Location:app/manager/createPaystub.php");
+    exit;
+}
+//create and insert paystub
+elseif(isset($_POST['savePayBtn'])){
+
+     //Insert Sql statment 
+     $sql = "INSERT INTO paystub (Essn, Start_date, End_date, Gross_pay, Deductions) VALUES (:Essn, :Start_date, :End_date, :Gross_pay, :Deductions)";
+     // Get data from post action
+     $createPay = $db->query($sql, [
+     ":Essn"=>$_POST["getSsn"],
+     ":Start_date"=>$_POST["getStartDate"],
+     ":End_date"=>$_POST["getEndDate"],
+     ":Gross_pay"=>$_POST["getGrossPay"],
+     ":Deductions"=>$_POST["getDeductions"],
+     ]);
+
+    //Net_pay = Gross_pay - Deductions
+    $addNetpay = $db -> query("UPDATE paystub SET Net_pay = Gross_pay - Deductions");
+
+    //if inserting query into paystub successful then
+
+    //display the updated table??
+    $viewPaystub = $db -> query("  SELECT p.Paystub_id, e.Ssn, p.Start_date, p.End_date, p.Gross_pay, p.Deductions, p.Net_pay
+                                        FROM employee  e
+                                        JOIN department d ON e.Dno = d.Dnumber
+                                        JOIN paystub p ON p.Essn = e.Ssn
+                                        WHERE d.Mgr_ssn = 333445555 AND e.Ssn != 333445555 ");
+    //create session
+    session_start();
+
+    $_SESSION['viewPaystub'] = $viewPaystub;
+    //view the updated paystub
+    header("Location:app/manager/managePaystub.php");
+    exit;
+
+}
+
+//delete paystub button - redirects to delete page
+elseif(isset($_POST['toDelBtn'])){
+    //get the selected paystub id to remove
+    $getPayID = $_POST['getPayID']; 
+
+    //remove the selected paystub 
+    $removePaystub = $db -> query("DELETE FROM paystub WHERE Paystub_id = $getPayID");
+
+    //display the updated table??
+    $viewPaystub = $db -> query("  SELECT p.Paystub_id, e.Ssn, p.Start_date, p.End_date, p.Gross_pay, p.Deductions, p.Net_pay
+                                        FROM employee  e
+                                        JOIN department d ON e.Dno = d.Dnumber
+                                        JOIN paystub p ON p.Essn = e.Ssn
+                                        WHERE d.Mgr_ssn = 333445555 AND e.Ssn != 333445555 ");
+    //create session
+    session_start();
+
+    $_SESSION['viewPaystub'] = $viewPaystub;
+    //view the updated paystub
+    header("Location:app/manager/managePaystub.php");
+    exit;
+
+}
+//manager view employee button:
+elseif(isset($_POST['ManagerViewEmpBtn'])){
+
+    //get the employee
+    $viewEmptoManager = $db->query("SELECT e.ssn, e.fname, e.lname,e.RNo,e.Bdate, e.Sex, d.Dname, ec.Phone, ec.Email, ec.Address
+                                    FROM employee e 
+                                    JOIN department d ON d.Dnumber = e.Dno  
+                                    JOIN emp_contact ec ON ec.Essn = e.Ssn
+                                    WHERE d.Mgr_ssn = 333445555 AND e.Ssn != 333445555 ");
+
+    //create session
+    session_start();
+    $_SESSION ['viewEmptoManager'] = $viewEmptoManager;
+
+    header("Location:app/manager/viewEmptoManager.php");
+    exit;
+
+}
+
+//manager view their client information
+elseif(isset($_POST['viewClientBtn'])){
+
+    //get client information for manager:
+    $viewClientToManager = $db -> query("  SELECT c.fname, c.lname, c.Email, c.Phone, p.Pname 
+                                                FROM client c
+                                                JOIN client_project cp ON c.cid = cp.cid
+                                                JOIN project p ON cp.Gave_project = p.Pnumber
+                                                JOIN department d ON p.Dnum = d.Dnumber
+                                                WHERE d.Mgr_ssn = 987654321; ");
+    //create session
+    session_start();
+    $_SESSION['viewClientToManager'] = $viewClientToManager;
+
+    //display:
+    header("Location:app/manager/viewClientToManager.php");
+    exit;
+}
+//Direct Manager to Manager Create Client  Page
+elseif(isset($_POST['createClientBtn'])){
+    header("Location:app/manager/createClient.php");
+}
+
+//Save the new client information
+elseif(isset($_POST['saveClientBtn'])){
+    //insert client information to Client table
+    $sql = "INSERT INTO client (Cid, Fname, Lname, Email, Phone) VALUES (:Cid, :Fname, :Lname, :Email, :Phone)";
+    // Get data from post action
+    $createClient = $db->query($sql, [
+    ":Cid"=>$_POST["getCid"],
+    ":Fname"=>$_POST["getClientFname"],
+    ":Lname"=>$_POST["getClientLname"],
+    ":Email"=>$_POST["getClientEmail"],
+    ":Phone"=>$_POST["getClientPhoneNumber"]
+    ]);
+
+    //get the project name into project number
+    $rProjectName = $_POST['getClientProjectName'];
+
+    //get project number to insert into client project
+    $getProjectNumber = $db ->query("   SELECT p.Pnumber
+                                        FROM project p
+                                        JOIN client_project cp ON cp.Gave_project = p.Pnumber
+                                        WHERE p.Pname = $rProjectName");
+
+
+    //insert into client project
+    $sqlProject = "INSERT INTO client_project (Cid, Gave_project) VALUES (:Cid, :Gave_project)";
+
+    //get client information for manager:
+        $viewClientToManager = $db -> query("  SELECT c.cid, c.fname, c.lname, c.Email, c.Phone, p.Pname 
+                                                    FROM client c
+                                                    JOIN client_project cp ON c.cid = cp.cid
+                                                    JOIN project p ON cp.Gave_project = p.Pnumber
+                                                    JOIN department d ON p.Dnum = d.Dnumber
+                                                    WHERE d.Mgr_ssn = 987654321");
+
+    //create session
+    session_start();
+    $_SESSION['viewClientToManager'] = $viewClientToManager;
+
+    //display:
+    header("Location:app/manager/viewClientToManager.php");
+    exit;
+
+}
+//edit client information
+elseif (isset($_POST['editClientBtn'])){
+
+    //direct the user to edit page
+    header("Location:app/manager/editClientInfo.php");
+    exit;
+    
+}
+
+//get client ID and view table:
+elseif(isset($_POST['clientID'])){ //submit button
+    if (isset($_POST['getClientID'])) {  //input element
+        //get the id and convert it into integter since it was taken as a string
+        $getClientId = (int)$_POST['clientID'];
+
+        //determine the data type of getClientID
+        //var_dump($getClientId);
+
+        //retrive the corressponding data 
+        $getClientInfo = $db ->query("SELECT c.cid, c.fname, c.lname, c.Email, c.Phone, p.Pname 
+                                                        FROM client c
+                                                        JOIN client_project cp ON c.cid = cp.cid
+                                                        JOIN project p ON cp.Gave_project = p.Pnumber
+                                                        JOIN department d ON p.Dnum = d.Dnumber
+                                                        WHERE d.Mgr_ssn = 987654321 AND c.cid = 1 ");
+        //then pass the data to editClientInfo page
+        session_start();
+        $_SESSION['editClientInfo'] = $getClientInfo;
+
+        header("Location:app/manager/editClientInfo.php");
+        exit;
+    }
+
+}
+
+//Manager Assigns project
+elseif(isset($_POST['assignProject']))
+{
+    header("Location:app/manager/assignProjects.php");
+    exit;
+}
+
+elseif(isset($_POST['assignClientToProject'])){
+    //Add it to client_project
+    //get the assigned client id
+    $sql = "INSERT INTO client_project (Cid, Gave_project) VALUES (:Cid, :Gave_project)";
+    // Get data from post action
+    $createClient = $db->query($sql, [
+    ":Cid"=>$_POST["getAssignCid"],
+    ":Gave_project"=>$_POST["getAssignProjectName"]
+    ]);
+
+
+    $viewClientProject = $db->query("SELECT Cid, Gave_project FROM client_project");
+    //create a session to view the client_porject table:
+    session_start();
+    $_SESSION['viewClientProject'] = $viewClientProject;
+
+    header("Location:app/manager/viewClientProject.php");
+    exit;
+}
+
+
+
+
+
+
+
+
+
+
 
 
