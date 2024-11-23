@@ -482,4 +482,157 @@ elseif(isset($_POST['viewManagerBtn'])){
     exit();
 }
 
+elseif(isset($_POST['viewDependentsBtn'])) {
+    session_start();
+    $employeeId = $_SESSION['user'];
+
+    $viewDependents = $db->query("SELECT d.Dependent_name, d.Sex, d.Bdate, d.Relationship 
+                                  FROM dependent d
+                                  WHERE d.Essn = ?;", [$employeeId]);
+
+    $_SESSION['viewDependents'] = $viewDependents;
+    header("Location: app/employee/dependents.php");    
+}
+
+elseif(isset($_POST['createDependent'])) {
+    header("Location: app/employee/createDependent.php");
+}
+
+elseif(isset($_POST['submitDependent'])) {
+    
+    session_start();
+    $employeeId = $_SESSION['user'];
+    $name = $_POST['Dependent_name'];
+    $sex = $_POST['Sex'];
+    $bdate = $_POST['Bdate'];
+    $relationship = $_POST['Relationship'];
+
+    $createDependent = $db->query("INSERT INTO dependent (Essn, Dependent_name, Sex, Bdate, Relationship)
+                                  VALUES (?, ?, ?, ?, ?);", 
+                                  [$employeeId, $name, $sex, $bdate, $relationship]);
+
+    $viewDependents = $db->query("SELECT d.Dependent_name, d.Sex, d.Bdate, d.Relationship 
+                                  FROM dependent d
+                                  WHERE d.Essn = ?;", [$employeeId]);
+
+    $_SESSION['viewDependents'] = $viewDependents;
+
+    header("location: app/employee/dependents.php");
+}
+
+elseif(isset($_POST['viewContactBtn'])) {
+    session_start();
+    $employeeId = $_SESSION['user'];
+
+    $getContact = $db->query("SELECT ec.Email, ec.Phone, ec.Address
+                              FROM emp_contact ec
+                              WHERE ec.Essn = ?;", [$employeeId]);
+
+    $_SESSION['viewContact'] = $getContact;
+    header("Location: app/employee/updateContact.php");
+}
+
+elseif(isset($_POST['changeContactBtn'])) {
+    session_start();
+    $employeeId = $_SESSION['user'];
+
+    // Build the update query dynamically based on filled fields
+    $updates = [];
+    $params = [];
+
+    if (!empty($_POST['Email'])) {
+        $updates[] = "Email = ?";
+        $params[] = $_POST['Email'];
+    }
+    if (!empty($_POST['Phone'])) {
+        $updates[] = "Phone = ?";
+        $params[] = $_POST['Phone'];
+    }
+    if (!empty($_POST['Address'])) {
+        $updates[] = "Address = ?";
+        $params[] = $_POST['Address'];
+    }
+
+    // Only execute the query if there are updates to make
+    if (!empty($updates)) {
+        $updateQuery = "UPDATE emp_contact SET " . implode(", ", $updates) . " WHERE Essn = ?";
+        $params[] = $employeeId; // Add employee ID as the last parameter
+
+        // Execute the update query
+        $db->query($updateQuery, $params);
+
+        $getContact = $db->query("SELECT ec.Email, ec.Phone, ec.Address
+                                  FROM emp_contact ec
+                                  WHERE ec.Essn = ?;", [$employeeId]);
+
+        $_SESSION['viewContact'] = $getContact;        
+
+        // Redirect after successful update
+        header("Location: app/employee/updateContact.php");
+        exit;
+    }
+
+    else {
+        header("Location: app/employee/updateContact.php");
+        exit;
+    }
+
+}
+
+elseif(isset($_POST['viewPaystubsBtn'])) {
+    session_start();
+    $employeeId = $_SESSION['user'];
+
+    $viewPaystubs = $db->query("SELECT ps.Start_date, ps.End_date, ps.Gross_pay, ps.Deductions, ps.Net_pay
+                                FROM paystub ps
+                                WHERE ps.Essn = ?;", [$employeeId]);
+    
+    $_SESSION['viewPaystubs'] = $viewPaystubs;
+
+    $avgPaystub = $db->query("SELECT AVG(Net_pay)
+                              FROM PAYSTUB
+                              WHERE (Essn, End_date) IN (
+                                  SELECT Essn, MAX(End_date)
+                                  FROM PAYSTUB
+                                  GROUP BY Essn);");
+    
+    array_push($_SESSION['viewPaystubs'], $avgPaystub[0]);
+    header("Location: app/employee/viewPaystubs.php"); 
+}
+
+elseif(isset($_POST['viewClientsBtn'])) {
+    session_start();
+    $employeeId = $_SESSION['user'];
+
+    $viewClients = $db->query("SELECT c.Fname, c.Lname, c.Works_for, c.Email, c.Phone, p.Pname
+                               FROM employee e
+                               JOIN works_on wo ON e.Ssn = wo.Essn
+                               JOIN project p ON wo.Pno = p.Pnumber
+                               JOIN client_project cp ON p.Pnumber = cp.Gave_project
+                               JOIN client c ON cp.Cid = c.Cid
+                               WHERE e.Ssn = ?;", [$employeeId]);
+
+    $_SESSION['viewClients'] = $viewClients;
+    header("Location: app/employee/viewClients.php");
+}
+
+elseif(isset($_POST['viewEmpInDeptBtn'])) {
+    session_start();
+    $employeeId = $_SESSION['user'];
+
+    $empDept = $db->query("SELECT e.Dno FROM employee e WHERE e.Ssn = ?;", [$employeeId]);
+
+    $viewEmpInDept = $db->query("SELECT e.Fname, e.Lname, r.Rname, ec.Email, ec.Phone, ec.Address,                     GROUP_CONCAT(DISTINCT p.Pname SEPARATOR ', ') AS Pname
+                                 FROM employee e
+                                 JOIN emp_contact ec ON e.Ssn = ec.Essn
+                                 JOIN roles r ON e.Rno = r.Rno
+                                 JOIN works_on wo ON e.Ssn = wo.Essn
+                                 JOIN project p ON wo.Pno = p.Pnumber
+                    			 WHERE e.Dno = ?
+                                 GROUP BY e.Fname, e.Lname, r.Rname, ec.Email, ec.Phone, ec.Address;", [$empDept[0]['Dno']]);
+
+    $_SESSION['viewEmpInDept'] = $viewEmpInDept;
+    header("Location: app/employee/viewEmpInSameDept.php");
+}
+
 
