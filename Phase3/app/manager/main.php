@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +9,6 @@
 </head>
 <body>
     <h1  style ="text-align:center">Manager</h1>
-
     <!--Manager Buttons--> 
     <div class ="container">
         <form method ="POST" action="../../controller.php">
@@ -23,8 +24,7 @@
             <!--Assign project--> 
             <button type = "submit" name="assignProject">Assign Projects</button>
             <p></p>
-        </form>
-        
+        </form>  
     </div>
 </body>
 </html>
