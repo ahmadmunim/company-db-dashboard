@@ -477,15 +477,17 @@ elseif(isset($_POST['ManagerViewEmpBtn'])){
     session_start();
     $managerID = $_SESSION['user'];
 
+    $dept = $db->query("SELECT d.Dnumber FROM department d WHERE d.Mgr_ssn = ?;", [$managerID]);
+
     //get the employee
-    $viewEmptoManager = $db->query("SELECT e.ssn, e.fname, e.lname,e.RNo,e.Bdate, e.Sex, d.Dname, ec.Phone, ec.Email, ec.Address, GROUP_CONCAT(DISTINCT p.Pname SEPARATOR ', ') AS Pname
+    $viewEmptoManager = $db->query("SELECT e.ssn, e.fname, e.lname,e.RNo, e.Sex, d.Dname, ec.Phone, ec.Email, ec.Address, GROUP_CONCAT(DISTINCT p.Pname SEPARATOR ', ') AS Pname
                                     FROM employee e 
                                     JOIN department d ON d.Dnumber = e.Dno  
                                     JOIN emp_contact ec ON ec.Essn = e.Ssn
                                     JOIN works_on wo ON wo.Essn = ec.Essn
                                     JOIN project p ON p.Pnumber = wo.Pno
-                                    WHERE d.Mgr_ssn = ? AND e.Ssn != ?
-                                    GROUP BY e.ssn, e.fname, e.lname,e.RNo,e.Bdate, e.Sex, d.Dname, ec.Phone, ec.Email, ec.Address;", [$managerID , $managerID]);
+                                    WHERE d.Dnumber = ? AND e.Ssn != ?
+                                    GROUP BY e.ssn, e.fname, e.lname,e.RNo, e.Sex, d.Dname, ec.Phone, ec.Email, ec.Address;", [$dept[0]['Dnumber'], $managerID]);
 
     $_SESSION ['viewEmptoManager'] = $viewEmptoManager;
 

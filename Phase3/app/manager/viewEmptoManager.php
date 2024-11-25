@@ -41,7 +41,6 @@ if (isset($_SESSION['viewEmptoManager'])) {
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Role Number</th>
-                                    <th>Birthday</th>
                                     <th>Gender</th>
                                     <th>Department Name</th>
                                     <th>Project</th>
@@ -57,7 +56,6 @@ if (isset($_SESSION['viewEmptoManager'])) {
                                         <td data-title="First Name"><?php echo ($row["fname"]); ?></td>
                                         <td data-title="Last Name"><?php echo ($row["lname"]); ?></td>
                                         <td data-title="Role Number"><?php echo ($row["RNo"]); ?></td>
-                                        <td data-title="Birthday"><?php echo ($row["Bdate"]); ?></td>
                                         <td data-title="Gender"><?php echo ($row["Sex"]); ?></td>
                                         <td data-title="Department Name"><?php echo ($row["Dname"]); ?></td>
                                         <td data-title="Project Name"><?php echo ($row["Pname"]); ?></td>
