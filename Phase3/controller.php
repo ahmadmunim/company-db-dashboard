@@ -430,9 +430,16 @@ if (isset($_POST['submit-emp'])) { // Check if post action
         header("Location: app/employee/main.php");
         exit;
     }
-    //redirects from projects.php to main.php
-    header("Location:app/client/main.php");
-    exit;
+
+    if ($_POST['source'] == 'client') {
+        header("Location: app/client/main.php");
+        exit;
+    }
+
+    if ($_POST['source'] == 'client-project') {
+        header("Location: app/client/projects.php");
+        exit;
+    }
 
 //Edit button for Client
 }elseif(isset($_POST['editBtn'])){

@@ -52,6 +52,7 @@ if (isset($_SESSION['projectData'])) {
                 <?php endif; ?>
                 <form class="save-exit-btn" method ="POST" action="../../controller.php">
                     <!--Exit Button: Goes back to main.php-->
+                    <input type="hidden" name="source" value="client">
                     <button type="submit" name="exitBtn">Exit</button>
                     <!--Edit Button-->
                     <button type="submit" name = "editBtn">Edit</button>

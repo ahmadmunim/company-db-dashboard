@@ -25,6 +25,7 @@
                     <!--save button-->
                     <button type="submit" name="saveBtn">Save</button>
                     <!--exit button-->
+                    <input type="hidden" name="source" value="client-project">
                     <button type="submit" name="exitBtn">Exit</button>
                 </form>
             </div>
