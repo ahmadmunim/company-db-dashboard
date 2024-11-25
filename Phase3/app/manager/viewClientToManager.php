@@ -60,16 +60,16 @@ if (isset($_SESSION['viewClientToManager'])) {
                 <?php else: ?>
                     <p>No client information data available. </p>
                 <?php endif; ?>  
-                    <form class="save-exit-btn" method ="POST" action="../../controller.php">
-                        <!--Delete Button: delete by client id-->                        
-                        <label>Enter Client ID to remove</label>
-                        <input name="delClientID" type = "text">
-                        <!--Exit Button: Goes back to main.php-->
-                        <button type="submit" name="exitPayBtn">Exit</button>
-                        <!--Create Button: create a new client-->
-                        <button type="submit" name="createClientBtn">Create</button>
-                <button type="submit" name="delClientBtn">Delete Client</button>
-            </form>              
+                <form class="save-exit-btn" method ="POST" action="../../controller.php">
+                    <!--Delete Button: delete by client id-->                        
+                    <label>Enter Client ID to remove</label>
+                    <input name="delClientID" type = "text">
+                    <button type="submit" name="delClientBtn">Delete Client</button>
+                    <!--Exit Button: Goes back to main.php-->
+                    <button type="submit" name="exitPayBtn">Exit</button>
+                    <!--Create Button: create a new client-->
+                    <button type="submit" name="createClientBtn">Create</button>
+                </form>              
             </div>          
         </div>
 
