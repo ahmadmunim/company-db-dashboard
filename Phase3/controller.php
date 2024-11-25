@@ -528,6 +528,11 @@ elseif(isset($_POST['submitDependent'])) {
     $bdate = $_POST['Bdate'];
     $relationship = $_POST['Relationship'];
 
+    if ($name == "" && $sex == "" && $bdate == "" && $relationship == "") {
+        header("location: app/employee/dependents.php");
+        exit;
+    }
+
     $createDependent = $db->query("INSERT INTO dependent (Essn, Dependent_name, Sex, Bdate, Relationship)
                                   VALUES (?, ?, ?, ?, ?);", 
                                   [$employeeId, $name, $sex, $bdate, $relationship]);
@@ -537,8 +542,6 @@ elseif(isset($_POST['submitDependent'])) {
                                   WHERE d.Essn = ?;", [$employeeId]);
 
     $_SESSION['viewDependents'] = $viewDependents;
-
-    header("location: app/employee/dependents.php");
 }
 
 elseif(isset($_POST['viewContactBtn'])) {
