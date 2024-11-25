@@ -1,0 +1,219 @@
+/* General Reset */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+/* Header Style */
+h1 {
+    margin: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    font-family: 'Comic Sans MS', cursive, sans-serif; /* Friendly handwritten style */
+}
+
+/* Subheader */
+.right-content h2 {
+    font-size: 20px;
+    text-align: center;
+    color: #d00000; /* Red color */
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+/* Main Container */
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 1200px;
+}
+
+/* Left Buttons Section */
+.menu-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+/* Button Styles */
+button {
+    width: 220px;
+    padding: 10px;
+    text-align: left;
+    font-size: 16px;
+    background-color: #f5f5f5;
+    border: 1px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #e0e0e0;
+}
+
+/* Right Content Section */
+.right-content {
+    width: 800px; /* Fixed width */
+    height: 400px; /* Fixed height */
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content */
+    overflow: auto; /* Scroll if content exceeds the fixed size */
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/* Exit Button */
+.exit-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #f5f5f5;
+    border: 1px solid #000;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.exit-button:hover {
+    background-color: #e0e0e0;
+}
+
+/* Form Container */
+.form-container {
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #fff;
+    width: 300px;
+    text-align: center;
+    margin: auto;
+    margin-top: 100px;
+}
+
+/* Heading */
+.form-container h2 {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* Form Styles */
+.create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Label Styles */
+.create-form label {
+    font-size: 14px;
+    text-align: left;
+    margin-bottom: 5px;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+/* Input and Select Styles */
+.create-form input,
+.create-form select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Button Styles */
+.create-form button {
+    padding: 8px 15px;
+    font-size: 14px;
+    background-color: #f5f5f5;
+    border: 1px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.create-form button:hover {
+    background-color: #e0e0e0;
+    transition: background-color 0.3s ease;
+}
+
+/* Save and Exit Buttons Form */
+.save-exit-btn {
+    display: flex; /* Flexbox layout */
+    flex-wrap: wrap; /* Enable wrapping to the next row */
+    justify-content: center; /* Center elements horizontally */
+    gap: 10px; /* Space between buttons and inputs */
+    margin-top: 20px; /* Add space above the form */
+}
+
+/* Buttons Style */
+.save-exit-btn button {
+    padding: 10px 20px; /* Add padding for a comfortable button size */
+    font-size: 14px; /* Set a readable font size */
+    background-color: #f5f5f5; /* Light background for the buttons */
+    border: 2px solid #000; /* Solid black border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effects */
+}
+
+/* Input Field Style */
+.save-exit-btn input {
+    padding: 10px; /* Comfortable input size */
+    font-size: 14px;
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    width: 200px; /* Set a fixed width for the input field */
+    box-sizing: border-box; /* Include padding and border in width */
+}
+
+/* Label Style */
+.save-exit-btn label {
+    font-size: 14px;
+    margin-right: 10px; /* Add some spacing between the label and input */
+    align-self: center; /* Align the label vertically with other elements */
+    white-space: nowrap; /* Prevent the label from breaking into multiple lines */
+    display: block;
+}
+
+/* Hover Effect for Buttons */
+.save-exit-btn button:hover {
+    background-color: #e0e0e0; /* Slightly darker background on hover */
+}
+
+

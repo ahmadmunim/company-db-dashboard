@@ -11,10 +11,12 @@
 <html>
     <head>
         <title>Change Contact</title>
+        <link rel="stylesheet" href="../../styles.css">
     </head>
 
     <body>
-    <h1>Your Contact Information</h1>
+        <h1>Hello Employee!</h1>
+        <h2>Your Contact Information</h2>
         <?php if(!empty($getContact)): ?>
             <table id="table">
                 <thead>
@@ -36,23 +38,21 @@
             </table>
         <?php else: ?>
             <p>No contact data available. </p>    
-        <?php endif; ?>                
-        <br>
-        <br>
-        <form method="POST" action="../../controller.php">
-            <label for="Email">New Email Address</label>
-            <input type="email" name="Email" id="">
-            <p></p>
-            
-            <label for="Phone">New Phone Number</label>
-            <input type="text" name="Phone" id="">
-            <p></p>
-            
-            <label for="Address">New Address</label>
-            <input type="text" name="Address" id="">
-            <p></p>
+        <?php endif; ?>  
 
-            <button type="submit" name="changeContactBtn">Update</button>
-        </form>
+        <div class="form-container">
+            <form class="create-form" method="POST" action="../../controller.php">
+                <label for="Email">New Email Address</label>
+                <input type="email" name="Email" id="">
+                
+                <label for="Phone">New Phone Number</label>
+                <input type="text" name="Phone" id="">
+                
+                <label for="Address">New Address</label>
+                <input type="text" name="Address" id="">
+
+                <button type="submit" name="changeContactBtn">Update</button>
+            </form>
+        </div>
     </body>
 </html>

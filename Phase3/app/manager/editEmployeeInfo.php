@@ -17,6 +17,7 @@ if (isset($_SESSION['editEmployeeInfo'])) {
 <html>
     <head>
         <title>Edit Employee Information </title>
+        <link rel="stylesheet" href="../../styles.css">
     </head>
 
     <body>
@@ -61,30 +62,23 @@ if (isset($_SESSION['editEmployeeInfo'])) {
         <?php endif; ?>
     
             <!--Buttons--> 
-            <div class ="container">
-            <form method ="POST" action="../../controller.php">
+        <div class ="form-container">
+            <form class="create-form" method ="POST" action="../../controller.php">
                 <!--Edit Changes-->
                 <label>Enter Employee ID</label>
                 <input type="text" name="getEmpSSN">
-                <!--<button type="submit" name="EmpSSN">Submit</button>-->
-                <p></p>
+
                 <!--Edit Role Number-->
-                <p></p>
                 <label>Edit Role Number</label>
                 <input type="text" name="getNewRoleNumber" >
                 
                 <!--Edit Department Name-->
-                <p></p>
                 <label>Edit Department Number</label>
                 <input type="text" name="getNewDeptNum" >
-
-                <p></p>
                 <!--Exit Button: Goes back to main.php-->
                 <button type="submit" name="exitPayBtn">Exit</button>
-                <p></p>
                 <!--Save Button: create a new client-->
                 <button type="submit" name="saveNewEmployeeInfo">Save</button>
-                <p></p>
 
             </form>
             
