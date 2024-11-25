@@ -16,6 +16,7 @@ if (isset($_SESSION['viewPaystub'])) {
     </head>
 
     <body>
+        <h1>Hello Manager!</h1>
         <div class="container">
             <form class="menu-btn" method ="POST" action="../../controller.php">
                 <!--Paystub Button-->

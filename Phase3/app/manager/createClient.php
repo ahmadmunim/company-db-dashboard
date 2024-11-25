@@ -7,6 +7,7 @@
     </head>
 
     <body>
+        <h1>Hello Manager!</h1>
         <div class ="form-container">
             <h2>Add a Client</h2>
             <form class="create-form" method ="POST" action="../../controller.php">
