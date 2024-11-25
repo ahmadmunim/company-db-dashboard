@@ -52,6 +52,9 @@
                 <input type="text" name="Address" id="">
 
                 <button type="submit" name="changeContactBtn">Update</button>
+                
+                <input type="hidden" name="source" value="contact">
+                <button type="submit" name="exitBtn">Exit</button>                
             </form>
         </div>
     </body>

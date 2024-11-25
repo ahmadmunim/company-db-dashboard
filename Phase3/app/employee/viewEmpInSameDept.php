@@ -58,7 +58,8 @@
                 <p>No employee data available. </p>
             <?php endif; ?>
             <form class="save-exit-btn" method="POST" action="../../controller.php">
-                    <button type="submit" name="exitBtn">Exit</button>
+                <input type="hidden" name="source" value="employee">
+                <button type="submit" name="exitBtn">Exit</button>
             </form>             
         </div>
     </div>

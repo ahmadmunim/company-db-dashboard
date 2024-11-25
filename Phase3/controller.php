@@ -416,6 +416,20 @@ if (isset($_POST['submit-emp'])) { // Check if post action
 
 //Exit button selected from projects.php
 }elseif(isset($_POST['exitBtn'])){
+    if ($_POST['source'] == 'employee') {
+        header("Location: app/employee/main.php");
+        exit;
+    }
+
+    if ($_POST['source'] == 'dependents') {
+        header("Location: app/employee/dependents.php");
+        exit;        
+    }
+
+    if ($_POST['source'] == 'contact') {
+        header("Location: app/employee/main.php");
+        exit;
+    }
     //redirects from projects.php to main.php
     header("Location:app/client/main.php");
     exit;

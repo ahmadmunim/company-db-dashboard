@@ -54,6 +54,7 @@
                 <?php endif; ?>
                 <form class="save-exit-btn" method="POST" action="../../controller.php">
                     <button type="submit" name="createDependent">Create Dependent</button>
+                    <input type="hidden" name="source" value="employee">
                     <button type="submit" name="exitBtn">Exit</button>
                 </form>
             </div>

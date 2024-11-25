@@ -58,6 +58,7 @@
                     <p>No paystubs data available. </p>
                 <?php endif; ?>
                 <form class="save-exit-btn" method="POST" action="../../controller.php">
+                    <input type="hidden" name="source" value="employee">
                     <button type="submit" name="exitBtn">Exit</button>
                 </form>                 
             </div>
