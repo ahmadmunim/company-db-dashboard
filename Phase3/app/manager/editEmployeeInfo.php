@@ -35,6 +35,7 @@ if (isset($_SESSION['editEmployeeInfo'])) {
                         <th>Birthday</th>
                         <th>Gender</th>
                         <th>Department Number</th>
+                        <th>Project</th>
                         <th>Email</th>
                         <th>Address</th>
                         <th>Phone Number</th>
@@ -50,6 +51,7 @@ if (isset($_SESSION['editEmployeeInfo'])) {
                             <td data-title="Birthday"><?php echo ($row["Bdate"]); ?></td>
                             <td data-title="Gender"><?php echo ($row["Sex"]); ?></td>
                             <td data-title="Department Name"><?php echo ($row["Dname"]); ?></td>
+                            <td data-title="Project Name"><?php echo ($row["Pname"]); ?></td>
                             <td data-title="Email"><?php echo ($row["Email"]); ?></td>
                             <td data-title="Address"><?php echo ($row["Address"]); ?></td>
                             <td data-title="Phone Number"><?php echo ($row["Phone"]); ?></td>

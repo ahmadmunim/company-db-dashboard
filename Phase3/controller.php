@@ -478,11 +478,14 @@ elseif(isset($_POST['ManagerViewEmpBtn'])){
     $managerID = $_SESSION['user'];
 
     //get the employee
-    $viewEmptoManager = $db->query("SELECT e.ssn, e.fname, e.lname,e.RNo,e.Bdate, e.Sex, d.Dname, ec.Phone, ec.Email, ec.Address
+    $viewEmptoManager = $db->query("SELECT e.ssn, e.fname, e.lname,e.RNo,e.Bdate, e.Sex, d.Dname, ec.Phone, ec.Email, ec.Address, GROUP_CONCAT(DISTINCT p.Pname SEPARATOR ', ') AS Pname
                                     FROM employee e 
                                     JOIN department d ON d.Dnumber = e.Dno  
                                     JOIN emp_contact ec ON ec.Essn = e.Ssn
-                                    WHERE d.Mgr_ssn = ? AND e.Ssn != ?;", [$managerID , $managerID]);
+                                    JOIN works_on wo ON wo.Essn = ec.Essn
+                                    JOIN project p ON p.Pnumber = wo.Pno
+                                    WHERE d.Mgr_ssn = ? AND e.Ssn != ?
+                                    GROUP BY e.ssn, e.fname, e.lname,e.RNo,e.Bdate, e.Sex, d.Dname, ec.Phone, ec.Email, ec.Address;", [$managerID , $managerID]);
 
     $_SESSION ['viewEmptoManager'] = $viewEmptoManager;
 
@@ -598,11 +601,14 @@ elseif(isset($_POST['EditEmployeeBtn'])){
     session_start();
     $managerID = $_SESSION['user'];
     //get the employee
-    $editEmployeeInfo = $db->query("SELECT e.ssn, e.fname, e.lname,e.RNo,e.Bdate, e.Sex, d.Dname, ec.Phone, ec.Email, ec.Address
+    $editEmployeeInfo = $db->query("SELECT e.ssn, e.fname, e.lname,e.RNo,e.Bdate, e.Sex, d.Dname, ec.Phone, ec.Email, ec.Address, GROUP_CONCAT(DISTINCT p.Pname SEPARATOR ', ') AS Pname
                                     FROM employee e 
                                     JOIN department d ON d.Dnumber = e.Dno  
                                     JOIN emp_contact ec ON ec.Essn = e.Ssn
-                                    WHERE d.Mgr_ssn = ? AND e.Ssn != ?;",[$managerID , $managerID] );
+                                    JOIN works_on wo ON wo.Essn = ec.Essn
+                                    JOIN project p ON p.Pnumber = wo.Pno                                
+                                    WHERE d.Mgr_ssn = ? AND e.Ssn != ?
+                                    GROUP BY e.ssn, e.fname, e.lname,e.RNo,e.Bdate, e.Sex, d.Dname, ec.Phone, ec.Email, ec.Address;",[$managerID , $managerID] );
 
     //create session
     $_SESSION ['editEmployeeInfo'] = $editEmployeeInfo;
