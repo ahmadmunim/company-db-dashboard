@@ -13,22 +13,22 @@ if (isset($_SESSION['viewClientProject'])) {
 <html>
     <head>
         <title>Assign Client to Project </title>
+        <link rel="stylesheet" href="../../styles.css">
     </head>
 
     <body>
-        <div class ="container">
-            <form method ="POST" action="../../controller.php">
+        <div class ="form-container">
+            <form class="create-form" method ="POST" action="../../controller.php">
                 <!--Get Client ID-->
                 <label>Client ID</label>
                 <input type="text" name="getAssignCid">
-                <p></p>
+
                 <!--Get Project name-->
                 <label>Project Name</label>
                 <input type ="text" name="getAssignProjectName">
-                <p></p>
+
                 <!--Assign Button: Assign a client to project-->
                 <button type="submit" name="assignClientToProject">Assign</button>
-                <p></p>
             </form>
             
         </div>
