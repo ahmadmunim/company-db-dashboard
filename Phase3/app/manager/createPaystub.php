@@ -18,11 +18,11 @@
                 
                 <!--Enter start date-->
                 <label>Enter Start Date</label>
-                <input type="text" name = "getStartDate">
+                <input type="date" name = "getStartDate">
 
                 <!--Enter End date-->
                 <label>Enter End Date</label>
-                <input type="text" name="getEndDate">
+                <input type="date" name="getEndDate">
 
                 <!--Enter gross pay-->
                 <label>Enter Gross pay</label>

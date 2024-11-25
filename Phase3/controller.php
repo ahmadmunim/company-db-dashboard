@@ -410,10 +410,14 @@ elseif(isset($_POST['savePayBtn'])){
     session_start();
     $managerID = $_SESSION['user'];
 
+    $newPaystubId = $db->query("SELECT MAX(Paystub_id) AS id FROM paystub;");
+    $newPaystubId = $newPaystubId[0]['id'] + 1;
+
      //Insert Sql statment 
-     $sql = "INSERT INTO paystub (Essn, Start_date, End_date, Gross_pay, Deductions) VALUES (:Essn, :Start_date, :End_date, :Gross_pay, :Deductions)";
+     $sql = "INSERT INTO paystub (Paystub_id, Essn, Start_date, End_date, Gross_pay, Deductions) VALUES (:Paystub_id, :Essn, :Start_date, :End_date, :Gross_pay, :Deductions)";
      // Get data from post action
      $createPay = $db->query($sql, [
+     ":Paystub_id"=>$newPaystubId,   
      ":Essn"=>$_POST["getSsn"],
      ":Start_date"=>$_POST["getStartDate"],
      ":End_date"=>$_POST["getEndDate"],
