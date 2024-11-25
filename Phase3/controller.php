@@ -102,8 +102,6 @@ elseif(isset($_POST['projectBtn'])) {
     session_start();
     $clientId = $_SESSION['user'];
 
-    $projectData = $db ->query("SELECT Pname,Pstart_date,d.Dname AS Dept_Name FROM project JOIN department d ON d.Dnumber = Dnum;");
-
     $projectData = $db->query("SELECT p.Pname, p.Pstart_date, d.Dname AS Dept_Name 
                                FROM project p
                                JOIN client_project cp ON cp.Gave_project = p.Pnumber
@@ -151,6 +149,10 @@ elseif(isset($_POST['projectBtn'])) {
 
 //Save button selected from editProjects.php
 }elseif(isset($_POST['saveBtn'])){
+
+    session_start();
+    $clientId = $_SESSION['user'];
+    
     //Get old project name from client
     $oldProject = $_POST['oldProjectName'];
 
@@ -160,8 +162,12 @@ elseif(isset($_POST['projectBtn'])) {
     $updateProjName = $db -> query("UPDATE project SET Pname = '$newProject' WHERE Pname = '$oldProject'");
 
     //get updated table:
-    $projectData = $db ->query("SELECT Pname,Pstart_date,d.Dname AS Dept_Name FROM project JOIN department d ON d.Dnumber = Dnum;");
-    session_start();
+    $projectData = $db->query("SELECT p.Pname, p.Pstart_date, d.Dname AS Dept_Name 
+                               FROM project p
+                               JOIN client_project cp ON cp.Gave_project = p.Pnumber
+                               JOIN department d ON d.Dnumber = p.Dnum
+                               WHERE cp.Cid = ?", [$clientId]); 
+
     $_SESSION['projectData'] = $projectData;
 
     header("Location:app/client/projects.php");
