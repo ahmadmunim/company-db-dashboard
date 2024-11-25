@@ -3,12 +3,9 @@ session_start();
 //fetch projects data
 if (isset($_SESSION['viewPaystub'])) {
     $viewPaystub = $_SESSION['viewPaystub'];
-    unset($_SESSION['viewPaystub']);
 } else {
     $viewPaystub = [];
 }
-
-
 
 ?>
 
