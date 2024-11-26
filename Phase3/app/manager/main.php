@@ -21,6 +21,8 @@
             <button type="submit" name="viewClientBtn">View Client Information</button>
             <!--Assign project--> 
             <button type = "submit" name="assignProject">Assign Projects</button>
+            <!--Logout-->
+            <button type="submit" name="logout">Logout</button>
         </form>  
         <div class="right-content">
 

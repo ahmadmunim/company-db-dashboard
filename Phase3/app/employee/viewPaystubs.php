@@ -24,6 +24,8 @@
                 <button type="submit" name="viewPaystubsBtn">View Paystubs</button>
                 <button type="submit" name="viewClientsBtn">View Client Information</button>
                 <button type="submit" name="viewEmpInDeptBtn">View Employee Information</button>
+                <!--Logout-->
+                <button type="submit" name="logout">Logout</button>
             </form>   
             
             <div class="right-content">

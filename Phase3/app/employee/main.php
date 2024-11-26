@@ -22,6 +22,8 @@
             <button type="submit" name="viewClientsBtn">View Your Clients</button>
             <!-- View Other Employees in Your Department -->
             <button type="submit" name="viewEmpInDeptBtn">View Employee Information</button>
+            <!--Logout-->
+            <button type="submit" name="logout">Logout</button>
         </form>
         
         <div class="right-content">

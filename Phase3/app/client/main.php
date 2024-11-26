@@ -21,6 +21,8 @@
             <button type="submit" name = "viewEmpBtn">View Employee Information</button>
             <!--View Manager information button -->
             <button type="submit" name="viewManagerBtn">View Manager Information</button>
+            <!--Logout-->
+            <button type="submit" name="logout">Logout</button>
         </form>
 
         <div class="right-content">

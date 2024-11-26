@@ -705,3 +705,7 @@ elseif(isset($_POST['delClientBtn'])){
     exit;
 
 }
+elseif(isset($_POST['logout'])){
+    header("Location:login.php");
+    exit;
+}
