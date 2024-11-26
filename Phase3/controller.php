@@ -322,10 +322,10 @@ elseif(isset($_POST['viewPaystubsBtn'])) {
     $_SESSION['viewPaystubs'] = $viewPaystubs;
 
     $avgPaystub = $db->query("SELECT AVG(Net_pay)
-                              FROM PAYSTUB
+                              FROM paystub
                               WHERE (Essn, End_date) IN (
                                   SELECT Essn, MAX(End_date)
-                                  FROM PAYSTUB
+                                  FROM paystub
                                   GROUP BY Essn);");
     
     array_push($_SESSION['viewPaystubs'], $avgPaystub[0]);
@@ -528,37 +528,39 @@ elseif(isset($_POST['saveClientBtn'])){
     //get the manager id
     session_start();
     $managerID = $_SESSION['user'];
+
+    $Cid = $_POST["getCid"];
+    $Fname = $_POST["getClientFname"];
+    $Lname = $_POST["getClientLname"];
+    $WorksFor = $_POST['getClientWorksFor'];
+    $Email = $_POST["getClientEmail"];
+    $Phone = $_POST["getClientPhoneNumber"];
+
     //insert client information to Client table
-    $sql = "INSERT INTO client (Cid, Fname, Lname, Email, Phone) VALUES (:Cid, :Fname, :Lname, :Email, :Phone)";
-    // Get data from post action
-    $createClient = $db->query($sql, [
-    ":Cid"=>$_POST["getCid"],
-    ":Fname"=>$_POST["getClientFname"],
-    ":Lname"=>$_POST["getClientLname"],
-    ":Email"=>$_POST["getClientEmail"],
-    ":Phone"=>$_POST["getClientPhoneNumber"]
-    ]);
+    $createClient = $db->query("INSERT INTO client (Cid, Fname, Lname, Works_for, Email, Phone) VALUES (?, ?, ?, ?, ?, ?);", [$Cid, $Fname, $Lname, $WorksFor, $Email, $Phone]);
+
+    $managerDept = $db ->query("SELECT e.Dno as Dno FROM employee e WHERE e.Ssn = ?;", [$managerID]);
+    $newPnumber = $db->query("SELECT MAX(Pnumber) as id FROM project;");
+    $newPnumber = $newPnumber[0]['id'] + 1;
 
     //get the project name into project number
     $rProjectName = $_POST['getClientProjectName'];
 
-    //get project number to insert into client project
-    $getProjectNumber = $db ->query("   SELECT p.Pnumber
-                                        FROM project p
-                                        JOIN client_project cp ON cp.Gave_project = p.Pnumber
-                                        WHERE p.Pname = $rProjectName");
+
+    $today = $_POST['getStartDate'];
+    $getProjectNumber = $db ->query("INSERT INTO project (Pnumber, Pname, Dnum, Pstart_date) VALUES (?, ?, ?, ?);", [$newPnumber, $rProjectName, $managerDept[0]['Dno'], $today]);
 
 
     //insert into client project
-    $sqlProject = "INSERT INTO client_project (Cid, Gave_project) VALUES (:Cid, :Gave_project)";
+    $sqlProject = $db->query("INSERT INTO client_project (Cid, Gave_project) VALUES (?, ?);", [$_POST['getCid'], $newPnumber]);
 
     //get client information for manager:
-        $viewClientToManager = $db -> query("  SELECT c.cid, c.fname, c.lname, c.Email, c.Phone, p.Pname 
-                                                    FROM client c
-                                                    JOIN client_project cp ON c.cid = cp.cid
-                                                    JOIN project p ON cp.Gave_project = p.Pnumber
-                                                    JOIN department d ON p.Dnum = d.Dnumber
-                                                    WHERE d.Mgr_ssn = ?;",[$managerID]);
+    $viewClientToManager = $db -> query("  SELECT c.cid, c.fname, c.lname, c.Email, c.Phone, p.Pname 
+                                                FROM client c
+                                                JOIN client_project cp ON c.cid = cp.cid
+                                                JOIN project p ON cp.Gave_project = p.Pnumber
+                                                JOIN department d ON p.Dnum = d.Dnumber
+                                                WHERE d.Mgr_ssn = ?;",[$managerID]);
                                                     
     //create session
     $_SESSION['viewClientToManager'] = $viewClientToManager;

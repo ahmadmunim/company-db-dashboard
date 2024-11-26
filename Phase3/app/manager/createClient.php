@@ -23,6 +23,9 @@
                 <label>Client Last Name</label>
                 <input type="text" name="getClientLname">
 
+                <!--Get Works for-->
+                <label>Client Works For</label>
+                <input type="text" name="getClientWorksFor">
 
                 <!--Get Client Email-->
                 <label>Client Email</label>
@@ -35,6 +38,10 @@
                 <!--Get Client Project Name-->
                 <label>Client Project Name</label>
                 <input type="text" name="getClientProjectName">
+
+                <!--Get Start Date-->
+                <label>Project Start Date</label>
+                <input type="date" name="getStartDate">
 
                 <!--Exit Button: Goes back to main.php-->
                 <button type="submit" name="exitPayBtn">Exit</button>
